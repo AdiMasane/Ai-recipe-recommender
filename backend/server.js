@@ -1,24 +1,27 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import dotenv from "dotenv";
+
+import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
 
 dotenv.config();
 
-const app = express();   // ✅ create express app
+const app = express();
 
-// middlewares
-app.use(cors());
+// Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// routes
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+// Test route
+app.get("/", (req, res) => {
+  res.send("API is running...");
 });
 
-// start server
+// API routes
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
